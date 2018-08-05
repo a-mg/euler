@@ -12,6 +12,15 @@
       (+ (car ints)
          (sum-list (cdr ints)))))
 
+; Get the maximum number in a list.
+(define (max-value l)
+  (if (null? (cdr l))
+      (car l)
+      (let ((max-cdr (max-value (cdr l))))
+        (if (> (car l) max-cdr)
+            (car l)
+            max-cdr))))
+
 
 
 ; Check if an integer is prime.
