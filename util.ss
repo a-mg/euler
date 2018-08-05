@@ -23,6 +23,20 @@
 
 
 
+; Helper recursive function which determines all of the
+; factors of a given number, n.
+(define (recursive-factors number current)
+  (if (= 1 current)
+      '()
+      (if (= 0 (modulo number current))
+          (cons current
+                (recursive-factors number (- current 1)))
+          (recursive-factors number (- current 1)))))
+
+; Nicer function which takes only one argument.
+(define (factors-of-n n)
+  (recursive-factors n n))
+
 ; Check if an integer is prime.
 (define (is-prime? n)
   (= (length (factors-of-n n)) 1))
