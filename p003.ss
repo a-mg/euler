@@ -1,3 +1,7 @@
+(load "util.ss")
+
+
+
 ; Helper recursive function which determines all of the
 ; factors of a given number, n.
 (define (recursive-factors number current)

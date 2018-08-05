@@ -1,3 +1,7 @@
+(load "util.ss")
+
+
+
 ; Generate a list of Fibonacci numbers with length n.
 ; (Unused in solution)
 (define (fibonacci n)
