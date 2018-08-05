@@ -13,13 +13,5 @@
                 (multiples-of-3-and-5 (cdr ints)))
           (multiples-of-3-and-5 (cdr ints)))))
 
-; Find the sum of the list of integers (probably a built-in
-; function, but I want to write it anyway).
-(define (sum-list ints)
-  (if (null? (cdr ints))
-      (car ints)
-      (+ (car ints)
-         (sum-list (cdr ints)))))
-
 ; Solve the problem
 (sum-list (multiples-of-3-and-5 (ints-n-to-m 1 999)))
