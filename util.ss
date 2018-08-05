@@ -12,3 +12,18 @@
       (+ (car ints)
          (sum-list (cdr ints)))))
 
+
+
+; Check if an integer is prime.
+(define (is-prime? n)
+  (= (length (factors-of-n n)) 1))
+
+; Remove all the composite numbers from a list.
+(define (primes ints)
+  (if (null? ints)
+      '()
+      (if (is-prime? (car ints))
+          (cons (car ints)
+                (primes (cdr ints)))
+          (primes (cdr ints)))))
+

@@ -17,21 +17,6 @@
 (define (prime-candidate-factors-of-n n)
   (recursive-factors n (floor (sqrt n))))
 
-
-
-; Check if an integer is prime.
-(define (is-prime? n)
-  (= (length (factors-of-n n)) 1))
-
-; Remove all the composite numbers from a list.
-(define (primes ints)
-  (if (null? ints)
-      '()
-      (if (is-prime? (car ints))
-          (cons (car ints)
-                (primes (cdr ints)))
-          (primes (cdr ints)))))
-
 ; List the prime factors of n.
 (define (prime-factors-of-n n)
   (primes (prime-candidate-factors-of-n n)))
