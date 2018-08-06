@@ -100,12 +100,12 @@
 ;;; Determine the next prime number to follow a
 ;;; given prime number.
 (define (next-prime n)
-  (if (= n 2)
-      3
-      (let ((check (+ n 2)))
-        (if (prime? check)
-            check
-            (next-prime check)))))
+  (cond ((< n 2) 2)
+        ((= n 2) 3)
+        (else (let ((check (+ n 2)))
+                (if (prime? check)
+                    check
+                    (next-prime check))))))
 
 ;;; Determine the nth prime number.
 (define (nth-prime n)
