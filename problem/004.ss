@@ -1,4 +1,6 @@
-(load "util.ss")
+(load "../util/list.ss")
+
+
 
 ; Helper: First letter from a string
 (define (string-first-letter s)
