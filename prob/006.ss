@@ -1,10 +1,4 @@
-(load "util/list.ss")
-
-
-
-;; Get the natural numbers 1..100.
-(define naturals (range 1 100))
-
-;; Solve the problem.
-(- (square (sum naturals))
-   (sum (map square naturals)))
+((lambda (nums)
+   (- (square (apply + nums))
+      (apply + (map square naturals))))
+ (iota 100 1))
