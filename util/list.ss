@@ -34,14 +34,14 @@
 ;;; built-in function, max, which can do something
 ;;; similar, but you need to apply it. I mostly wrote
 ;;; this as an exercise.
-(define (max-in l)
+(define (maxl l)
   (if (null? (cdr l))
       (car l)
-      (let ((max-cdr (max-in (cdr l))))
+      (let ((max-cdr (maxl (cdr l))))
         (if (> (car l) max-cdr)
             (car l)
             max-cdr))))
 
 ;;; Backwards compatibility with existing problems.
 (define (max-value l)
-  (max-in l))
+  (maxl l))
