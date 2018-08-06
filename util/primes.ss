@@ -112,3 +112,26 @@
   (if (= n 1)
       2
       (next-prime (nth-prime (- n 1)))))
+
+
+
+;;; Using the Sieve of Eratosthenes algorithm, find
+;;; all the primes up to a given limit. Makes a list 
+;;; of all the integers up to ubound, marks composite
+;;; numbers #f, and then removes all the #f values,
+;;; returning the list of prime numbers.
+(define (sieve ubound)
+  ;; Start with a list of all the integers.
+  (let ((ints (iota (+ ubound 1) 0)))
+    ;; Set the first two positions (0 and 1) to #f.
+    (list-set! ints 0 #f)
+    (list-set! ints 1 #f)
+    ;; Loop from 2 to square root of ubound.
+    (do ((i 2 (+ i 1)))
+        ((> i (square ubound)))
+      ;; Cross out the multiples of i.
+      (do ((j (square i) (+ j i)))
+          ((> j ubound))
+        (list-set! ints j #f)))
+    ;; Remove the false values and return.
+    (remove not ints)))
