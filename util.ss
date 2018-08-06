@@ -37,6 +37,8 @@
 (define (factors-of-n n)
   (recursive-factors n n))
 
+
+
 ; Check if an integer is prime.
 (define (is-prime? n)
   (= (length (factors-of-n n)) 1))
@@ -58,3 +60,26 @@
 ; List the prime factors of n.
 (define (prime-factors-of-n n)
   (primes (prime-candidate-factors-of-n n)))
+
+
+
+; Largest number below a given number that is
+; a prime number.
+(define (largest-prime-divisor-helper num test)
+  (if (= test 1)
+      num
+      (if (and (is-prime? test)
+               (= 0 (modulo num test)))
+          test
+          (largest-prime-divisor-helper num (- test 1)))))
+
+(define (largest-prime-divisor n)
+  (largest-prime-divisor-helper n n))
+
+; Find the prime decomposition of a number.
+(define (prime-decom n)
+  (if (is-prime? n)
+      (list n)
+      (let* ((factor (largest-prime-divisor n))
+             (rest   (prime-decom (/ n factor))))
+        (cons factor rest))))
