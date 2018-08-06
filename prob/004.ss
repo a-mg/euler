@@ -1,4 +1,4 @@
-(load "../util/list.ss")
+(load "util/list.ss")
 
 
 

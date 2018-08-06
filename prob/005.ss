@@ -1,5 +1,5 @@
-(load "../util/list.ss")
-(load "../util/primes.ss")
+(load "util/list.ss")
+(load "util/primes.ss")
 
 
 

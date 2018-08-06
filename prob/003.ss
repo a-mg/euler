@@ -1,4 +1,4 @@
-(load "../util/primes.ss")
+(load "util/primes.ss")
 
 
 
