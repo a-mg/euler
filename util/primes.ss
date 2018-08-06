@@ -128,7 +128,7 @@
     (list-set! ints 1 #f)
     ;; Loop from 2 to square root of ubound.
     (do ((i 2 (+ i 1)))
-        ((> i (square ubound)))
+        ((> i (sqrt ubound)))
       ;; Cross out the multiples of i.
       (do ((j (square i) (+ j i)))
           ((> j ubound))
