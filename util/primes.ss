@@ -28,7 +28,8 @@
 ;;; Check if an integer is prime. Checks if there is
 ;;; only one factor of n (therefore prime).
 (define (prime? n)
-  (= (length (factors n)) 1))
+  (= (length (recursive-factors n (floor (sqrt n))))
+     0))
 
 ;;; Backwards compatibility with existing problems.
 (define (is-prime? n)
