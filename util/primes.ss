@@ -120,18 +120,20 @@
 ;;; of all the integers up to ubound, marks composite
 ;;; numbers #f, and then removes all the #f values,
 ;;; returning the list of prime numbers.
+;;; TODO this needs to be faster.
 (define (sieve ubound)
   ;; Start with a list of all the integers.
   (let ((ints (iota (+ ubound 1) 0)))
     ;; Set the first two positions (0 and 1) to #f.
     (list-set! ints 0 #f)
     (list-set! ints 1 #f)
-    ;; Loop from 2 to square root of ubound.
-    (do ((i 2 (+ i 1)))
+    ;; Loop through the range 2..(sqrt ubound)
+    (do ((i 2 (do ((next-i (+ i 1) (+ next-i 1)))
+                  ((list-ref ints next-i) next-i))))
         ((> i (sqrt ubound)))
-      ;; Cross out the multiples of i.
+      ;; Loop through the multiples of i and cancel.
       (do ((j (square i) (+ j i)))
           ((> j ubound))
         (list-set! ints j #f)))
-    ;; Remove the false values and return.
+    ;; Remove the false values from the list.
     (remove not ints)))
