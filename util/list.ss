@@ -45,3 +45,37 @@
 ;;; Backwards compatibility with existing problems.
 (define (max-value l)
   (maxl l))
+
+
+
+;;; Convert a number into a list of all the digits
+;;; of that number (in the original order).
+(define (number->list n)
+  (map (lambda (c)
+         (string->number (string c)))
+       (string->list (number->string n))))
+
+
+
+;;; Given a list, return a sublist of a specified
+;;; length from a specified starting position.
+;;; Returns '() if the sublist cannot be made (begins
+;;; beyond the end of the list, or is longer than
+;;; the remaining list.
+(define (sublist llist start llength)
+  ;; Check for errors in the arguments to avoid
+  ;; a problem trying to read from the list.
+  (if (or (< start 0)
+          (> start (- (length llist) 1))
+          (> (+ start llength) (length llist)))
+      '()
+      ;; Advance down the list by the number
+      ;; of positions given by start.
+      (if (> start 0)
+          (sublist (cdr llist) (- start 1) llength)
+          ;; Make a list of length llength using
+          ;; the atoms of the original list.
+          (if (= llength 0)
+              '()
+              (cons (car llist)
+                    (sublist (cdr llist) start (- llength 1)))))))
