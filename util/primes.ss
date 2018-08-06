@@ -94,3 +94,21 @@
 ;;; Backwards compatibiltiy with existing problems.
 (define (prime-decom n)
   (prime-factorization n))
+
+
+
+;;; Determine the next prime number to follow a
+;;; given prime number.
+(define (next-prime n)
+  (if (= n 2)
+      3
+      (let ((check (+ n 2)))
+        (if (prime? check)
+            check
+            (next-prime check)))))
+
+;;; Determine the nth prime number.
+(define (nth-prime n)
+  (if (= n 1)
+      2
+      (next-prime (nth-prime (- n 1)))))
