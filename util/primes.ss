@@ -116,24 +116,43 @@
 
 
 ;;; Using the Sieve of Eratosthenes algorithm, find
-;;; all the primes up to a given limit. Makes a list 
-;;; of all the integers up to ubound, marks composite
-;;; numbers #f, and then removes all the #f values,
-;;; returning the list of prime numbers.
-;;; TODO this needs to be faster.
-(define (sieve ubound)
-  ;; Start with a list of all the integers.
-  (let ((ints (iota (+ ubound 1) 0)))
-    ;; Set the first two positions (0 and 1) to #f.
-    (list-set! ints 0 #f)
-    (list-set! ints 1 #f)
-    ;; Loop through the range 2..(sqrt ubound)
-    (do ((i 2 (do ((next-i (+ i 1) (+ next-i 1)))
-                  ((list-ref ints next-i) next-i))))
-        ((> i (sqrt ubound)))
-      ;; Loop through the multiples of i and cancel.
-      (do ((j (square i) (+ j i)))
-          ((> j ubound))
-        (list-set! ints j #f)))
-    ;; Remove the false values from the list.
-    (remove not ints)))
+;;; all the primes up to a given limit. 
+(define (sieve limit)
+  ;; step takes two arguments:
+  ;;   primes - List of known primes
+  ;;   odds   - Odd numbers to check
+  (define (step primes odds)
+    ;; Next prime is the first number in odds.
+    (let ((p (car odds)))
+      ;; If the square of p is larger than the limit,
+      ;; the sieve is finished.
+      (if (> (square p) limit)
+             ;; Reverse append odds to primes.
+             (let rev-append ((u primes)
+                              (v odds))
+               (if (null? u)
+                   v
+                   (rev-append (cdr u) (cons (car u) v))))
+             ;; Otherwise, add p to the primes and remove
+             ;; all multiples of p from the odds, advancing
+             ;; to the next value of p.
+             (step (cons p primes)
+                   (let wheel ((clean '())
+                               (dirty (cdr odds))
+                               (loser (square p)))
+                     ;; If there are no more numbers in the dirty
+                     ;; list, the wheel is finished.
+                     (cond ((null? dirty) (reverse clean))
+                           ;; Operate on the first dirty number.
+                           ;; If it's the loser, take it out.
+                           ((= (car dirty) loser) (wheel clean (cdr dirty) (+ loser p)))
+                           ;; If it's greater than the loser, we've
+                           ;; already deleted the loser as a multiple
+                           ;; of a smaller p. Increment the loser.
+                           ((> (car dirty) loser) (wheel clean dirty (+ loser p)))
+                           ;; Otherwise, we've got a coprime, so add it
+                           ;; to the clean list and continue.
+                           (else (wheel (cons (car dirty) clean) (cdr dirty) loser))))))))
+    ;; Return the list of primes.
+    (step '(2)
+          (iota (- (ceiling (/ limit 2)) 1) 3 2)))
