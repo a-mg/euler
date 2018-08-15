@@ -25,6 +25,12 @@
 
 
 
+;;; Proper divisors
+(define (divisors n)
+  (append (cdr (factors n)) '(1)))
+
+
+
 ;;; Check if an integer is prime. Checks if there is
 ;;; only one factor of n (therefore prime).
 (define (prime? n)
