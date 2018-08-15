@@ -8,10 +8,17 @@
 ;;; of number->text conversion.
 (define triple-separators
   '((1 "")
-    (2 " thousand")
-    (3 " million")
-    (4 " billion")
-    (5 " trillion")))
+    (2  "thousand")
+    (3  "million")
+    (4  "billion")
+    (5  "trillion")
+    (6  "quadrillion")
+    (7  "quintillion")
+    (8  "sextillion")
+    (9  "septillion")
+    (10 "octillion")
+    (11 "nonillion")
+    (12 "decillion")))
 
 (define digit-ones
   '((0 "zero")
@@ -122,8 +129,6 @@
 
 ;;; Joins a list of strings together with a separator chosen
 ;;; from triple-names based on the length of the list.
-;;; TODO: currently this is just smashing groups together without
-;;; correctly putting commas between them
 (define (join-triples sstring llist)
   (if (null? llist)
       ;; The recursion has finished.
@@ -147,16 +152,16 @@
                         "")
                     ;; Add the current number.
                     (car llist)
+                    ;; Add a space.
+                    " "
                     ;; Add the group name.
                     (cadr (assoc (length llist) triple-separators)))))
             ;; Continue with the next group.
             (join-triples new-sstring (cdr llist))))))
 
-
-
-;;; Converts a number (with a maximum of 999,999,999,999,999) to
-;;; a text-based representation by splitting into triples, getting
-;;; the text representation for each triple, and then joining them.
+;;; Converts a number to a text-based representation by splitting
+;;; into triples, getting the text representation for each triple,
+;;; and then joining them.
 (define (number->text n)
   (join-triples ""
     (map small-number->text
