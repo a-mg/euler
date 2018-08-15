@@ -71,7 +71,7 @@
   (if (<= (length strings) 3)
       (list (reduce-left string-append "" strings))
       (cons (reduce-left string-append "" (sublist strings 0 3))
-            (group-triples (sublist strings 3 -1)))))
+            (group-triples (sublist strings 3 (length strings))))))
 
 ;;; Given an integer, split into a list of triples (right-biased
 ;;; so that any excess will exist on the left side).
@@ -124,19 +124,40 @@
 ;;; from triple-names based on the length of the list.
 ;;; TODO: currently this is just smashing groups together without
 ;;; correctly putting commas between them
-(define (join-triples llist)
+(define (join-triples sstring llist)
   (if (null? llist)
-      ""
-      (string-append (if (not (equal? (car llist) "zero"))
-                         (string-append (car llist)
-                                        (cadr (assoc (length llist) triple-separators)))
-                         "")
-                     (join-triples (cdr llist)))))
+      ;; The recursion has finished.
+      sstring
+      (if (and (equal? "zero" (car llist))
+               (or (< 1 (length llist))
+                   (< 0 (string-length sstring))))
+          ;; If there is a zero before the end of the list, or
+          ;; there is a zero when there is already text in the
+          ;; string, skip the current group.
+          (join-triples sstring (cdr llist))
+          ;; Otherwise, we need to add the current group to the
+          ;; text string and continue on.
+          (let ((new-sstring
+                  (string-append
+                    ;; Add the text so far.
+                    sstring
+                    ;; Check if we need a comma to divide the groups.
+                    (if (< 0 (string-length sstring))
+                        ", "
+                        "")
+                    ;; Add the current number.
+                    (car llist)
+                    ;; Add the group name.
+                    (cadr (assoc (length llist) triple-separators)))))
+            ;; Continue with the next group.
+            (join-triples new-sstring (cdr llist))))))
+
+
 
 ;;; Converts a number (with a maximum of 999,999,999,999,999) to
 ;;; a text-based representation by splitting into triples, getting
 ;;; the text representation for each triple, and then joining them.
 (define (number->text n)
-  (join-triples
+  (join-triples ""
     (map small-number->text
          (triple-split-number n))))
