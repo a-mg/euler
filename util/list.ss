@@ -79,3 +79,24 @@
               '()
               (cons (car llist)
                     (sublist (cdr llist) start (- llength 1)))))))
+
+
+
+;;; Make dotted pairs from an atom and every element
+;;; of a list.
+(define (dot-atom-list a l)
+  (if (null? (cdr l))
+      (list `(,a . ,(car l)))
+      (append (list `(,a . ,(car l)))
+            (dot-atom-list a (cdr l)))))
+
+;;; Run the dotted pair function for two lists such
+;;; that every pair between the two lists is made.
+(define (every-dot l1 l2)
+  (if (null? l1)
+      '()
+      (append (dot-atom-list (car l1) l2)
+              (every-dot (cdr l1) l2))))
+
+
+
