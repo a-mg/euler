@@ -1,6 +1,6 @@
 #lang racket
 
-(require "../util/fibonacci.rkt")
+(require math/number-theory)
 
 ;;; 'Climb' the Fibonacci sequence, given a starting index and a
 ;;; maximum value, constructing a list of the found values.
