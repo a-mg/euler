@@ -2,6 +2,7 @@
 
 (provide read-number
          read-numbers
+         read-csv-strings
          read-grid)
 
 ;;; Reads a number from a file, containing that number on
@@ -14,6 +15,14 @@
 (define (read-numbers path)
   (map string->number
        (port->lines (open-input-file path))))
+
+;;; Reads a list of quoted strings that are separated by commas,
+;;; splitting on the commas and trimming the quotes.
+(define (read-csv-strings path)
+  (string-split (string-replace (port->string (open-input-file path))
+                                "\""
+                                "")
+                ","))
 
 ;;; Reads a grid of numbers from a file: each line is a list
 ;;; of numbers, contained within a wrapping list.
