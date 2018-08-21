@@ -1,7 +1,29 @@
 #lang racket
 
-(provide palindrome?
+(provide sublist
+         palindrome?
          pair-off)
+
+;;; Given a list, return a sublist beginning from a specified
+;;; index with a specified length. Returns #f if the requested
+;;; sublist is too long.
+(define (sublist llist start llength)
+  (cond
+    [(> (+ start llength) (length llist))
+      ;; The requested sublist is too long.
+      #f]
+    [(= llength 0)
+      ;; We have reached the end of the requested
+      ;; sublist; return.
+      '()]
+    [(> start 0)
+      ;; Advance down the list until the first atom
+      ;; is where we want to start.
+      (sublist (rest llist) (- start 1) llength)]
+    [else
+      ;; Append the current atom with the rest of the sublist.
+      (cons (first llist)
+            (sublist (rest llist) 0 (- llength 1)))]))
 
 ;;; Determines if a list is a palindrome (reads the same backwards
 ;;; and forwards).
