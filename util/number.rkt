@@ -19,17 +19,17 @@
 ;;; of number->text conversion.
 (define triple-separators
   '((1 "")
-    (2  "thousand")
-    (3  "million")
-    (4  "billion")
-    (5  "trillion")
-    (6  "quadrillion")
-    (7  "quintillion")
-    (8  "sextillion")
-    (9  "septillion")
-    (10 "octillion")
-    (11 "nonillion")
-    (12 "decillion")))
+    (2  " thousand")
+    (3  " million")
+    (4  " billion")
+    (5  " trillion")
+    (6  " quadrillion")
+    (7  " quintillion")
+    (8  " sextillion")
+    (9  " septillion")
+    (10 " octillion")
+    (11 " nonillion")
+    (12 " decillion")))
 
 (define digit-ones
   '((0 "zero")
@@ -67,36 +67,40 @@
 ;;; so that any excess will exist on the left side).
 ;;; 1,234,567 -> '(1 234 567)
 (define (triple-split-number n)
-  ;;; Helper, given a list of strings, group every three strings
-  ;;; into one and make a new list of the triples.
+  ;; Helper, get the first three atoms from a list.
+  (define (first-3 l)
+    (list (first l)
+          (second l)
+          (third l)))
+  ;; Helper, given a list of strings, group every three strings
+  ;; into one and make a new list of the triples.
   (define (group-triples strings)
     (if (<= (length strings) 3)
-      (list (reduce-left string-append "" strings))
-      (cons (reduce-left string-append "" (sublist strings 0 3))
-            (group-triples (sublist strings 3 (length strings))))))
+      (list (foldl string-append "" strings))
+      (cons (foldl string-append "" (first-3 strings))
+            (group-triples (cdddr strings)))))
   ;;; Perform the grouping.
   (reverse 
     (map string->number
-         (map reverse-string
-              (group-triples
-                (reverse
-                  (map char->string
-                       (string->list
-                         (number->string
-                           n)))))))))
+         (group-triples
+           (reverse
+             (map string
+                  (string->list
+                    (number->string
+                      n))))))))
 
 ;;; Converts a number (with a maximum of three digits) to a text-
 ;;; based representation.
 (define (small-number->text n)
-  ;; Helper, find the base-10 log of a number.
+  ; Helper, find the base-10 log of a number.
   (define (log10 n)
     (/ (log n) (log 10)))
-  ;;; Helper, find the number of digits in an integer.
+  ;; Helper, find the number of digits in an integer.
   (define (digits n)
     (if (= n 0)
       1
       (+ 1 (floor (log10 n)))))
-  ;;; Perform the conversion.
+  ;; Perform the conversion.
   (cond [(= 1 (digits n))
           ;; For a one digit number, return the string representation
           ;; that already exists in digit-ones.
@@ -150,8 +154,6 @@
                         "")
                     ;; Add the current number.
                     (car llist)
-                    ;; Add a space.
-                    " "
                     ;; Add the group name.
                     (cadr (assoc (length llist) triple-separators)))])
             ;; Continue with the next group.
