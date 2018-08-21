@@ -1,6 +1,7 @@
 #lang racket
 
 (provide number->list
+         digits
          number->text)
 
 
@@ -89,17 +90,20 @@
                     (number->string
                       n))))))))
 
-;;; Converts a number (with a maximum of three digits) to a text-
-;;; based representation.
-(define (small-number->text n)
+;; Helper, find the number of digits in an integer.
+(define (digits n)
   ; Helper, find the base-10 log of a number.
   (define (log10 n)
     (/ (log n) (log 10)))
-  ;; Helper, find the number of digits in an integer.
-  (define (digits n)
+  ;; Perform the calculation.
+  (inexact->exact
     (if (= n 0)
       1
-      (+ 1 (floor (log10 n)))))
+      (+ 1 (floor (log10 n))))))
+
+;;; Converts a number (with a maximum of three digits) to a text-
+;;; based representation.
+(define (small-number->text n)
   ;; Perform the conversion.
   (cond [(= 1 (digits n))
           ;; For a one digit number, return the string representation
