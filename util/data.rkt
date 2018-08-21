@@ -1,6 +1,7 @@
 #lang racket
 
 (provide read-number
+         read-numbers
          read-grid)
 
 ;;; Reads a number from a file, containing that number on
@@ -8,6 +9,11 @@
 (define (read-number path)
   (with-input-from-file path
     (lambda () (string->number (read-line)))))
+
+;;; Reads a list of numbers from a file, one number per line.
+(define (read-numbers path)
+  (map string->number
+       (port->lines (open-input-file path))))
 
 ;;; Reads a grid of numbers from a file: each line is a list
 ;;; of numbers, contained within a wrapping list.
