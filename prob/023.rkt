@@ -1,7 +1,6 @@
 #lang racket
 
-(require math/number-theory
-         "../util/list.rkt")
+(require math/number-theory)
 
 ;; Predicate which checks if a number is abundant
 ;; (The sum of its proper divisors is greater than n)
@@ -11,14 +10,22 @@
 ;; Get all the abundant numbers in the range
 (define abundants (filter abundant? (range 12 28123)))
 
-;; Calculate all the sums of two abundants numbers given
-;; the range specified above
-(define abundant-sums
-  (map (lambda (l) (foldl + 0 l))
-       (pair-off abundants abundants)))
+;; Check if a number can be written as the sum of
+;; two abundant numbers
+(define (abundant-sum? n)
+  ;; Helper, traverse a list of numbers (abundants)
+  ;; and check if the difference between n and the
+  ;; first number in the list is abundant
+  (define (traverse n l)
+    (cond
+      [(null? l)
+        #f]
+      [(member (- n (first l)) abundants)
+        #t]
+      [else
+        (traverse n (rest l))]))
+  ;; Check the predicate for all abundants
+  (traverse n abundants))
 
-;; Find the list of integers in the problem range which
-;; cannot be written as the sum of two abundant numbers.
-(define numbers (remove* abundant-sums (range 24 28123)))
-
-(length numbers)
+;; Find the solution
+(foldl + 0 (filter-not abundant-sum? (range 1 28123)))
