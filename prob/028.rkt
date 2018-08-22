@@ -3,6 +3,7 @@
 ;; Calculate the nth value of the sequence containing
 ;; the numbers on the diagonals of Ulam's spiral.
 ;; (1-indexed)
+;; https://oeis.org/A200975
 (define (ulam-diag n)
   (+ (floor (/ (* n (+ n 2)) 4))
      (floor (/ (modulo n 4) 3))
