@@ -1,6 +1,7 @@
 #lang racket
 
-(require math/number-theory)
+(require math/number-theory
+         "../util/list.rkt")
 
 ;; Predicate which checks if a number is abundant
 ;; (The sum of its proper divisors is greater than n)
@@ -10,22 +11,33 @@
 ;; Get all the abundant numbers in the range
 (define abundants (filter abundant? (range 12 28123)))
 
-;; Check if a number can be written as the sum of
-;; two abundant numbers
-(define (abundant-sum? n)
-  ;; Helper, traverse a list of numbers (abundants)
-  ;; and check if the difference between n and the
-  ;; first number in the list is abundant
-  (define (traverse n l)
+;; Given a list of numbers, calculate all the sums
+;; made from two of those numbers which do not exceed a
+;; given upper bound
+(define (all-sums numbers ubound)
+  ;; Helper, given a number n and a list of numbers l,
+  ;; return a list of all the sums of n and l_i that do
+  ;; not exceed the limit ubound
+  (define (loop-number n l u)
     (cond
       [(null? l)
-        #f]
-      [(member (- n (first l)) abundants)
-        #t]
+        '()]
+      [(>= (+ n (first l)) u)
+        '()]
       [else
-        (traverse n (rest l))]))
-  ;; Check the predicate for all abundants
-  (traverse n abundants))
+        (cons (+ n (first l))
+              (loop-number n (rest l) u))]))
+  ;; Helper, given a list of numbers, call loop-number
+  ;; with every element in the list
+  (define (loop-list l1 l2 u)
+    (cond
+      [(null? l1)
+        '()]
+      [else
+        (append (loop-number (first l1) l2 u)
+                (loop-list (rest l1) l2 u))]))
+  ;; List the sums
+  (remove-duplicates (loop-list numbers numbers ubound)))
 
 ;; Find the solution
-(foldl + 0 (filter-not abundant-sum? (range 1 28123)))
+(apply + (remove* (all-sums abundants 28123) (range 1 28123)))
