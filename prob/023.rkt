@@ -40,4 +40,5 @@
   (remove-duplicates (loop-list numbers numbers ubound)))
 
 ;; Find the solution
-(apply + (remove* (all-sums abundants 28123) (range 1 28123)))
+(- (apply + (range 1 28123))
+   (apply + (all-sums abundants 28123)))
