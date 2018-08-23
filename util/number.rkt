@@ -1,6 +1,7 @@
 #lang racket
 
 (provide number->list
+         list->number
          digits
          pandigital?
          number->text)
@@ -14,6 +15,13 @@
             (string->list
               (number->string
                 n)))))
+
+;; Converts a list of digits into a number
+(define (list->number lst)
+  (string->number
+    (apply string-append
+           (map number->string
+                lst))))
 
 ;; Calculate the number of digits in an integer.
 (define (digits n)
