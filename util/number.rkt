@@ -1,5 +1,7 @@
 #lang racket
 
+(require threading)
+
 (provide number->list
          list->number
          digits
@@ -10,18 +12,19 @@
 
 ;;; Converts a number into a list of digits.
 (define (number->list n)
-  (map string->number
-       (map string
-            (string->list
-              (number->string
-                n)))))
+  (~>> n
+       number->string
+       string->list
+       (map string)
+       (map string->number)))
+
 
 ;; Converts a list of digits into a number
 (define (list->number lst)
-  (string->number
-    (apply string-append
-           (map number->string
-                lst))))
+  (~>> lst
+       (map number->string)
+       (apply string-append)
+       string->number))
 
 ;; Calculate the number of digits in an integer.
 (define (digits n)
