@@ -2,6 +2,7 @@
 
 (provide number->list
          digits
+         pandigital?
          number->text)
 
 
@@ -13,6 +14,25 @@
             (string->list
               (number->string
                 n)))))
+
+;; Calculate the number of digits in an integer.
+(define (digits n)
+  ; Helper, find the base-10 log of a number.
+  (define (log10 n)
+    (/ (log n) (log 10)))
+  ;; Perform the calculation.
+  (inexact->exact
+    (if (= n 0)
+      1
+      (+ 1 (floor (log10 n))))))
+
+;; Determine if a number is pandigital (for a number with
+;; d digits, contains each digit 1..d exactly once)
+(define (pandigital? n)
+  (let ([digits (number->list n)]
+        [d (digits n)])
+    (for/and ([i (range 1 (+ d 1))])
+      (member i digits))))
 
 
 
@@ -89,17 +109,6 @@
                   (string->list
                     (number->string
                       n))))))))
-
-;; Helper, find the number of digits in an integer.
-(define (digits n)
-  ; Helper, find the base-10 log of a number.
-  (define (log10 n)
-    (/ (log n) (log 10)))
-  ;; Perform the calculation.
-  (inexact->exact
-    (if (= n 0)
-      1
-      (+ 1 (floor (log10 n))))))
 
 ;;; Converts a number (with a maximum of three digits) to a text-
 ;;; based representation.
