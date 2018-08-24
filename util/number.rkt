@@ -6,6 +6,7 @@
          list->number
          digits
          pandigital?
+         rotations
          number->text)
 
 
@@ -44,6 +45,31 @@
         [d (digits n)])
     (for/and ([i (range 1 (+ d 1))])
       (member i digits))))
+
+;; Construct a list of all the rotations of a number
+;; 971 -> 971 719 197
+(define (rotations num)
+  ;; Helper, rotate a list (move the first element of
+  ;; the list to the end
+  (define (rotate-list lst)
+    (append (rest lst)
+            (list (first lst))))
+  ;; Helper, rotate a number
+  (define (rotate-number num)
+    (~> num
+        number->list
+        rotate-list
+        list->number))
+  ;; Helper, rotate a number n times
+  (define (rotate-times num n)
+    (cond
+      [(= n 0)
+        num]
+      [else
+        (rotate-times (rotate-number num) (- n 1))]))
+  ;; Collect the list of rotations
+  (for/list ([i (range 0 (digits num))])
+    (rotate-times num i)))
 
 
 
