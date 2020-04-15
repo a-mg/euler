@@ -18,3 +18,6 @@ efficient use of libraries when necessary.
 I have installed and made use of these Racket packages:
 
 * [threading](https://docs.racket-lang.org/threading/index.html)
+
+**Note: this branch is deprecated, and included as an archive. See current work
+in `master`.**
