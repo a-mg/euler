@@ -1,3 +1,5 @@
+      * 007:
+      *
       * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13,
       * we can see that the 6th prime is 13.
       *
@@ -10,10 +12,10 @@
        WORKING-STORAGE SECTION.
       * index (n) of nth prime we're searching for
            78 N-End     VALUE IS 10001.
-       LOCAL-STORAGE SECTION.
       * prime search state
            01 N         USAGE IS UNSIGNED-LONG.
            01 Nth-Prime USAGE IS UNSIGNED-LONG.
+       LOCAL-STORAGE SECTION.
       * parameters for prime check
            01 Candidate USAGE IS UNSIGNED-LONG.
            01 Is-Prime  PIC 9(1).
