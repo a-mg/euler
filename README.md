@@ -1,17 +1,18 @@
-My solutions to [Project Euler][eu] problems, written in the **polyglot** mode:
-each problem solved in a different programming language.
+My solutions to [Project Euler][eu] problems, written as a **polyglot** project:
+each problem solved (in order) in a different programming language.
 
   [eu]: https://projecteuler.net/
 
----
+This is mainly a way for me to learn new things and try lots of different
+programming languages I wouldn't otherwise have a reason to. But, I'm not too
+strict; sometimes I might solve a problem multiple times, in different
+languages, or use a language more than once, if I like it a lot, or want to try
+it out some more.
 
-I like programming, and learning new things. This "project" is a means to try a
-lot of programming languages I wouldn't otherwise have the chance to.
-
-Each problem has a numbered folder, containing the solution program, any data
-files, and a README with the problem description, tools (compiler/interpreter)
-used, and my notes. When run, the program prints the solution to standard
-output.
+Solutions are in `/src/`, problem data (input) in `/data/`. The `/bin/` folder
+is empty but tracked in git to make a place for binary output from compilers.
+(This may be rearranged in the future to one folder per problem, which would
+also let me write notes in the READMEs, if I want.)
 
 This repository also contains previous Euler attempts (Scheme, Racket), archived
 in branches with respective names.
