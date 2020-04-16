@@ -26,8 +26,8 @@
 
        PROCEDURE DIVISION.
       * initialize data values
-           MOVE 2 to N
-           MOVE 3 to Nth-Prime
+           MOVE 2 TO N
+           MOVE 3 TO Nth-Prime
            MOVE Nth-Prime TO Candidate
       * calculate primes until N = N-END
            PERFORM FIND-NEXT-PRIME UNTIL N = N-End
@@ -55,7 +55,7 @@
            MOVE 1 TO Is-Prime
            MOVE FUNCTION SQRT(Candidate) TO Root
            PERFORM VARYING I FROM 2 BY 1 UNTIL I > Root
-               MOVE FUNCTION MOD(Candidate, I) to Remain
+               MOVE FUNCTION MOD(Candidate, I) TO Remain
                IF Remain = 0 THEN
       * if it's evenly divisible, it's not prime
                    MOVE 0 TO Is-Prime
